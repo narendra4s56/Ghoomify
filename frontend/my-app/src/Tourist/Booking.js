@@ -10,6 +10,7 @@ function Booking({ booking_id, status, tourist_id, guide_id }) {
             navigate(`/chat/${tourist_id}/${guide_id}`);
         } else {
             alert('Your booking request was declined. Please book another guide.');
+            alert('Your booking request was declined. Please book another guide.');
         }
     };
 
