@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../css/admin/AdminDashboard.css'
+import { server } from '../server';
 
 const AdminDashboard = () => {
   const [payments, setPayments] = useState([]);
@@ -12,7 +13,7 @@ const AdminDashboard = () => {
 
   // Fetch Payment Details
   useEffect(() => {
-    axios.get('http://localhost:8081/api/admin/payments')
+    axios.get(`${server}/admin/payments`)
       .then(response => setPayments(response.data))
       .catch(error => console.error('Error fetching payments:', error));
   }, []);
@@ -20,21 +21,21 @@ const AdminDashboard = () => {
   //Fetch Support request details
 
   useEffect(() => {
-    axios.get('http://localhost:8081/api/admin/support')
+    axios.get(`${server}/admin/support`)
     .then(responce => setSupport(responce.data))
     .catch(error => console.log('Error fetching support details', error));
   }, []);
 
   // Fetch All Tourists
   useEffect(() => {
-    axios.get('http://localhost:8081/api/admin/tourists')
+    axios.get(`${server}/admin/tourists`)
       .then(response => setTourists(response.data))
       .catch(error => console.error('Error fetching tourists:', error));
   }, []);
 
   // Fetch All Guides
   useEffect(() => {
-    axios.get('http://localhost:8081/api/admin/guides')
+    axios.get(`${server}/admin/guides`)
       .then(response => setGuides(response.data))
       .catch(error => console.error('Error fetching guides:', error));
   }, []);
@@ -42,10 +43,10 @@ const AdminDashboard = () => {
   // Search Handler
   const handleSearch = async () => {
     try {
-      const touristSearch = await axios.get(`http://localhost:8081/api/admin/tourists/search`, {
+      const touristSearch = await axios.get(`${server}/admin/tourists/search`, {
         params: { name: searchQuery }
       });
-      const guideSearch = await axios.get(`http://localhost:8081/api/admin/guides/search`, {
+      const guideSearch = await axios.get(`${server}/admin/guides/search`, {
         params: { name: searchQuery }
       });
       setSearchResults({ tourists: touristSearch.data, guides: guideSearch.data });
@@ -57,7 +58,7 @@ const AdminDashboard = () => {
   // Remove Tourist
   const removeTourist = (id) => {
     console.log(`Removing tourist with ID: ${id}`);
-    axios.delete(`http://localhost:8081/api/admin/tourists/${id}`)
+    axios.delete(`${server}/admin/tourists/${id}`)
       .then(() => {
         console.log(`Tourist with ID ${id} removed`);
         setTourists(tourists.filter(tourist => tourist.id !== id));
@@ -67,7 +68,7 @@ const AdminDashboard = () => {
   //Remove Guide
   const removeGuide = (id) => {
     console.log(`Removing guide with ID: ${id}`);
-    axios.delete(`http://localhost:8081/api/admin/guides/${id}`)
+    axios.delete(`${server}/admin/guides/${id}`)
       .then(() => {
         console.log(`Guide with ID ${id} removed`);
         setGuides(guides.filter(guide => guide.id !== id));

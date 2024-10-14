@@ -12,7 +12,7 @@ const AdminLogin = () => {
 
   const handleLogin = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:8081/api/admin/login', { email, password });
+      const response = await axios.post(`${server}/admin/login`, { email, password });
       
       if (response.data.success) {
         localStorage.setItem('token', response.data.token);

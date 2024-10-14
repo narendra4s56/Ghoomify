@@ -22,13 +22,8 @@ app.use(express.urlencoded({extended: false}));
 
 // Create a new pool instance
 const pool = new Pool({
-    user: process.env.PGUSER,
-    host: process.env.PGHOST,
-    database: process.env.PGDATABASE,
-    password: process.env.PGPASSWORD,
-    // port: process.env.PGPORT,
-  });
-
+  connectionString: process.env.POSTGRES_URL,
+})
 
   pool.connect((err, client, release) => {
     if (err) {
@@ -202,7 +197,7 @@ app.put('/update-guide-profile/:guide_id', (req, res) => {
 
 
 
-//  Route to get guide profile by guide_id
+//  Route to get tourist profile by tourist_id
 
 app.get('/tourist-profile/:tourist_id', async (req, res) => {
   const tourist_id = req.params.tourist_id;
@@ -643,7 +638,7 @@ app.post('/reviews/:booking_id', async (req, res) => {
 
 // Admin login API
 
-app.post('/api/admin/login', async (req, res) => {
+app.post('/admin/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -677,7 +672,7 @@ app.post('/api/admin/login', async (req, res) => {
 
 
 // Fetch Payment Details
-app.get('/api/admin/payments', async (req, res) => {
+app.get('/admin/payments', async (req, res) => {
   try {
     const result = await pool.query(`SELECT * FROM payments`);
     res.status(200).json(result.rows);
@@ -688,7 +683,7 @@ app.get('/api/admin/payments', async (req, res) => {
 });
 
 //fetch support details
-app.get('/api/admin/support',async (req, res) => {
+app.get('/admin/support',async (req, res) => {
   try {
    const result = await pool.query('SELECT * FROM supportrequests');
    res.status(200).json(result.rows);
@@ -700,7 +695,7 @@ app.get('/api/admin/support',async (req, res) => {
  
 
 // Fetch Tourist Details
-app.get('/api/admin/tourists', async (req, res) => {
+app.get('/admin/tourists', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM tourists');
     res.status(200).json(result.rows);
@@ -711,7 +706,7 @@ app.get('/api/admin/tourists', async (req, res) => {
 });
 
 // Fetch Guide Details
-app.get('/api/admin/guides', async (req, res) => {
+app.get('/admin/guides', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM guides');
     res.status(200).json(result.rows);
@@ -722,7 +717,7 @@ app.get('/api/admin/guides', async (req, res) => {
 });
 
 // Remove Tourist
-app.delete('/api/admin/tourists/:id', async (req, res) => {
+app.delete('/admin/tourists/:id', async (req, res) => {
   const { id } = req.params;
   try {
     await pool.query('DELETE FROM tourists WHERE tourist_id = $1', [id]);
@@ -734,7 +729,7 @@ app.delete('/api/admin/tourists/:id', async (req, res) => {
 });
 
 // Remove Guide
-app.delete('/api/admin/guides/:id', async (req, res) => {
+app.delete('/admin/guides/:id', async (req, res) => {
   const { id } = req.params;
   try {
     await pool.query(`DELETE FROM guides WHERE guide_id = $1`, [id]);
@@ -749,7 +744,7 @@ app.delete('/api/admin/guides/:id', async (req, res) => {
 
 
 // Search Tourist by ID or Name
-app.get('/api/admin/tourists/search', async (req, res) => {
+app.get('/admin/tourists/search', async (req, res) => {
   const { id, name } = req.query;
 
   try {
@@ -769,7 +764,7 @@ app.get('/api/admin/tourists/search', async (req, res) => {
 });
 
 // Search Guide by ID or Name
-app.get('/api/admin/guides/search', async (req, res) => {
+app.get('/admin/guides/search', async (req, res) => {
   const { id, name } = req.query;
 
   try {
