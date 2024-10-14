@@ -38,8 +38,11 @@ const pool = new Pool({
 
 app.post('/signup-tourist' , (req , res) => {
     const sql = 'INSERT INTO tourists (name, email, password) VALUES ($1, $2, $3) RETURNING *';
-    const values = req.body;
-  
+    const {name, email, password} = req.body;
+    // const values = req.body;
+    const values = [name, email, password]
+     
+
 
     pool.query(sql, values, (err, data) => {
         if (err) {
