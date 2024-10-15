@@ -27,7 +27,7 @@ const TouristDashboard = () => {
       });
 
     // Fetch the booked tours for the tourist
-    axios.get(`/api/tourists/${tourist_id}/booked-tours`)
+    axios.get(`${server}/tourists/${tourist_id}/booked-tours`)
       .then(response => setBookedTours(response.data))
       .catch(error => console.error('Error fetching booked tours:', error));
   }, [tourist_id]);
