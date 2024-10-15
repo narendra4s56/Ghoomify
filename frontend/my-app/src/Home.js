@@ -4,7 +4,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './Home.css'
 import Support from './Support';
 import { useNavigate } from 'react-router-dom';
-const HomePage = () => {
+const Home = () => {
   const [selectedRole, setSelectedRole] = useState('');
   const navigate = useNavigate();
 
@@ -141,4 +141,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Home;
